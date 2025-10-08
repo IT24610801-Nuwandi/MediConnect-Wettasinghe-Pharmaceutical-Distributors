@@ -1,10 +1,10 @@
-import React from "react";
-import DoctorLogin from "../components/DoctorLogin";
+import React from 'react';
+import DoctorLogin from '../components/DoctorLogin';
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {/* Doctor Login Form */}
+    <div className="login-page">
       <DoctorLogin />
     </div>
   );

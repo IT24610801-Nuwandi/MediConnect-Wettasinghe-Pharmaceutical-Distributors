@@ -5,7 +5,6 @@ const Profile = () => {
 
   useEffect(() => {
     // TODO: Fetch doctor profile from backend API
-    setDoctor({ name: "Dr. Smith", email: "dr.smith@example.com", licenseNo: "LIC1234" });
   }, []);
 
   return (

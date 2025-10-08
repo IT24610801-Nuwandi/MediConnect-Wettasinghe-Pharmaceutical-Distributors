@@ -1,42 +1,57 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import '../styles/LoginPage.css';
 
 const DoctorLogin = () => {
-  // State to store login email and password
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
 
-  // Handle login form submission
-  const handleLogin = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.password) newErrors.password = 'Password is required';
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login with:", email, password);
-    // TODO: Call backend API (POST /doctor/login)
+    if (validateForm()) {
+      console.log('Logging in with:', formData);
+      // TODO: Send to backend
+    }
   };
 
   return (
-    <form onSubmit={handleLogin} className="p-4 shadow-md rounded bg-white w-96 mx-auto mt-10">
-      <h2 className="text-xl font-bold mb-4">Doctor Login</h2>
+    <div className="login-container">
+      <form className="login-card" onSubmit={handleSubmit}>
+        <h2>Doctor Login</h2>
 
-      {/* Email input */}
-      <input 
-        type="email" 
-        placeholder="Email" 
-        value={email} 
-        onChange={(e) => setEmail(e.target.value)} 
-        className="border p-2 w-full mb-2"
-      />
+        <label htmlFor="email" className="input-label">Email</label>
+        <input type="email" name="email" id="email" onChange={handleChange} />
+        {errors.email && <p className="error">{errors.email}</p>}
 
-      {/* Password input */}
-      <input 
-        type="password" 
-        placeholder="Password" 
-        value={password} 
-        onChange={(e) => setPassword(e.target.value)} 
-        className="border p-2 w-full mb-2"
-      />
+        <label htmlFor="password" className="input-label">Password</label>
+        <input type="password" name="password" id="password" onChange={handleChange} />
+        {errors.password && <p className="error">{errors.password}</p>}
 
-      {/* Login button */}
-      <button type="submit" className="bg-green-600 text-white p-2 rounded w-full">Login</button>
-    </form>
+        <button type="submit">Login</button>
+
+        <p className="register-redirect">
+          Don't have an account? <a href="/register">Register Here</a>
+        </p>
+      </form>
+    </div>
   );
 };
 

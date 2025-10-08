@@ -1,0 +1,41 @@
+.bulk-order {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.product-card {
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-card.selected {
+  border: 2px solid #3b82f6;
+  background-color: #eef2ff;
+}
+
+.order-form {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+}
+
+.order-form input {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  width: 100px;
+}

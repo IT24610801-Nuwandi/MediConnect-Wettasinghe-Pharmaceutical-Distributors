@@ -1,12 +1,13 @@
-import React from "react";
-import OrderTracking from "../components/OrderTracking";
+import React from 'react';
+import BulkOrder from '../components/BulkOrder';
+import OrderTracking from '../components/OrderTracking';
 
 const OrdersPage = () => {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-2xl font-bold text-black mb-6">My Orders</h2>
-
-      {/* Show all doctor’s orders */}
+    <div>
+      <h1 style={{ textAlign: 'center', marginTop: '2rem' }}>Wholesale Orders</h1>
+      <BulkOrder />
+      <hr style={{ margin: '2rem 0' }} />
       <OrderTracking />
     </div>
   );

@@ -1,10 +1,10 @@
-import React from "react";
-import DoctorRegisterForm from "../components/DoctorRegisterForm";
+import React from 'react';
+import DoctorRegisterForm from '../components/DoctorRegisterForm';
+import '../styles/RegisterPage.css';
 
 const RegisterPage = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      {/* Doctor Registration Form */}
+    <div className="register-page">
       <DoctorRegisterForm />
     </div>
   );

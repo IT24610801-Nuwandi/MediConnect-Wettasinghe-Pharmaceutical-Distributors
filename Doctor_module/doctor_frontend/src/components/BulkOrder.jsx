@@ -1,36 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../styles/BulkOrder.css';
 
 const BulkOrder = () => {
-  // State to store bulk order details
-  const [order, setOrder] = useState({ productId: "", quantity: 0 });
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(0);
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Bulk Order:", order);
-    // TODO: API call to backend (POST /doctor/order/bulk)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get('/api/products?type=wholesale');
+        setProducts(res.data);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleOrder = async () => {
+    try {
+      await axios.post('/api/orders', {
+        productId: selectedProduct._id,
+        quantity,
+      });
+      alert('Order placed successfully!');
+      setSelectedProduct(null);
+      setQuantity(0);
+    } catch (err) {
+      console.error('Order failed:', err);
+      alert('Failed to place order.');
+    }
   };
 
   return (
-    <div className="p-4 bg-white shadow-md w-96 mx-auto mt-10 rounded">
-      <h2 className="text-xl font-bold mb-4">Place Bulk Order</h2>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Product ID" 
-          value={order.productId} 
-          onChange={(e) => setOrder({ ...order, productId: e.target.value })} 
-          className="border p-2 w-full mb-2"
-        />
-        <input 
-          type="number" 
-          placeholder="Quantity" 
-          value={order.quantity} 
-          onChange={(e) => setOrder({ ...order, quantity: e.target.value })} 
-          className="border p-2 w-full mb-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white w-full p-2 rounded">Place Order</button>
-      </form>
+    <div className="bulk-order">
+      <h2>Wholesale Products</h2>
+      <div className="product-grid">
+        {products.map((product) => (
+          <div
+            key={product._id}
+            className={`product-card ${selectedProduct?._id === product._id ? 'selected' : ''}`}
+            onClick={() => setSelectedProduct(product)}
+          >
+            <h3>{product.name}</h3>
+            <p>Base Price: Rs. {product.basePrice}</p>
+            <p>Wholesale (50+): Rs. {product.wholesalePrice}</p>
+          </div>
+        ))}
+      </div>
+
+      {selectedProduct && (
+        <div className="order-form">
+          <h3>Order: {selectedProduct.name}</h3>
+          <label>Quantity:</label>
+          <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+          />
+          <p>Total: Rs. {quantity * selectedProduct.wholesalePrice}</p>
+          <button onClick={handleOrder}>Place Bulk Order</button>
+        </div>
+      )}
     </div>
   );
 };

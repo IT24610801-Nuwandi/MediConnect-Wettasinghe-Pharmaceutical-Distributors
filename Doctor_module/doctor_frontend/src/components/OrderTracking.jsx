@@ -1,26 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import '../styles/OrderTracking.css';
 
 const OrderTracking = () => {
-  const [orders, setOrders] = useState([]); // Store doctor orders
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO: Fetch orders from API (GET /doctor/orders)
-    setOrders([
-      { id: 1, status: "Pending" },
-      { id: 2, status: "Processing" },
-    ]);
+    const fetchOrders = async () => {
+      try {
+        const res = await axios.get('/api/orders/my'); // Assumes auth token is sent
+        setOrders(res.data);
+      } catch (err) {
+        console.error('Error fetching orders:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchOrders();
   }, []);
 
   return (
-    <div className="p-4 bg-white shadow-md w-96 mx-auto mt-10 rounded">
-      <h2 className="text-xl font-bold mb-4">Track Orders</h2>
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id} className="border p-2 mb-2 rounded">
-            Order #{order.id} → <span className="font-semibold">{order.status}</span>
-          </li>
-        ))}
-      </ul>
+    <div className="order-tracking">
+      <h2>My Orders</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : orders.length === 0 ? (
+        <p>No orders found.</p>
+      ) : (
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Total (Rs.)</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td>{order.productName}</td>
+                <td>{order.quantity}</td>
+                <td>{order.totalPrice}</td>
+                <td className={`status ${order.status.toLowerCase()}`}>{order.status}</td>
+                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

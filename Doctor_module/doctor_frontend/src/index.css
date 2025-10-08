@@ -2,8 +2,8 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #000000; /* black text */
-  background-color: #ffffff; /* white background */
+  color: #000000;
+  background-color: #ffffff;
 }
 
 body {
@@ -15,7 +15,7 @@ body {
 
 a {
   font-weight: 500;
-  color: #3b82f6; /* blue links */
+  color: #3b82f6;
   text-decoration: none;
 }
 
@@ -23,12 +23,10 @@ a:hover {
   color: #2563eb;
 }
 
-/* Headings */
 h1, h2, h3 {
   color: #000000;
 }
 
-/* Buttons */
 button {
   border-radius: 6px;
   border: none;
@@ -36,13 +34,18 @@ button {
   font-size: 1em;
   font-weight: 600;
   font-family: inherit;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #007bff;
+  color: #ffffff;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
-  background-color: #93c5fd;
-  color: #000000;
+  background-color: #0056b3;
+}
+
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }

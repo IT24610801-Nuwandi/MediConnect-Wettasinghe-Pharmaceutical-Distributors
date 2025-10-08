@@ -5,10 +5,6 @@ const ProductList = () => {
 
   useEffect(() => {
     // TODO: Fetch wholesale product list from backend (GET /doctor/products)
-    setProducts([
-      { id: 1, name: "Medicine A", wholesalePrice: 100 },
-      { id: 2, name: "Medicine B", wholesalePrice: 150 },
-    ]);
   }, []); // Empty dependency array → runs once on component mount
 
   return (
